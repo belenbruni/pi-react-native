@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Pressable, TextInput } from 'react-native';
+import { useEffect } from 'react'
 import NavegationTab from "../navegation/NavegationTab"
 import { useState } from "react"
 import { auth } from "../firebase/config"
@@ -22,6 +23,14 @@ export default function Login(props) {
                 setLoginError("Credenciales inválidas")
             })
     }
+
+    useEffect(() => {
+        auth.onAuthStateChanged( user => {
+            if (user) {
+                props.navigation.navigate("NavegationTab")
+            }
+        })
+    }, [])
 
     return (
         <View style={styles.container}>
