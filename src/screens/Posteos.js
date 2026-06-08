@@ -1,23 +1,33 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Pressable, TextInput } from 'react-native';
+import { useState } from 'react'
+import {auth, db} from '../firebase/config'
 
-export default function Posteos(){
-    return(
+export default function Posteos(props) {
+    const [post, setPost] = useState("")
+
+    function onSubmit(){
+        db.collection("posteos").add({
+            
+        })
+    }
+    return (
         <View style={styles.container}>
-            <Text style={styles.text}>Posteos</Text>
+            <Text>Crear nuevo post</Text>
+            <TextInput style={styles.field}
+                keyboardType='default'
+                placeholder='Escribe aquí...'
+                onChangeText={text => setPost(text)}
+                value={post} />
+            <Pressable onPress={() => onSubmit()}>
+                <Text> Publicar post </Text>
+            </Pressable>
         </View>
-    )
+
+    );
 }
 
 const styles = StyleSheet.create({
 
-    container:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center'
+    field: {
     },
-
-    text:{
-        fontSize:30
-    }
-
 })

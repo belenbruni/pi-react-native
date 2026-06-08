@@ -13,7 +13,6 @@ export default function NavegationStack(){
                 <Stack.Screen name="NavegationTab" component={NavegationTab} options={{headerShown: false}}/>
                 <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
                 <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
-               
             </Stack.Navigator>
         </NavigationContainer>
     )
