@@ -12,7 +12,10 @@ export default function Posteos(props) {
             description: post,
             like: []
         })
-        .then(res => {props.navigation.navigate("Home")})
+        .then(res => 
+            {props.navigation.navigate("Home"),
+            setPost('')}
+        )
     }
     return (
         <View style={styles.container}>
