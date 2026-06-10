@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Pressable } from 'react-native';
 import { auth, db } from "../firebase/config"
 import { useState, useEffect } from "react"
 import { ActivityIndicator } from 'react-native-web';
 import Post from "../components/Post"
 
-export default function Profile() {
+export default function Profile(props) {
     const [usuarios, setUsuarios] = useState([])
     const [posts, setPosts] = useState([])
 
@@ -37,9 +37,21 @@ export default function Profile() {
             })
     }, [])
 
+    function onSubmit() {
+        auth.signOut()
+        props.navigation.navigate("Login")
+    }
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Mi perfil</Text>
+            <View style={styles.header} >
+                <Text style={styles.title}>Mi perfil</Text>
+
+                <Pressable style={styles.buttonOut} onPress={() => onSubmit()}>
+                    <Text style={styles.buttonOutText}>Cerrar sesión</Text>
+                </Pressable>
+            </View>
+
             {usuarios.data ? (
                 <>
                     <Text style={styles.datos}>{usuarios.data.owner}</Text>
@@ -65,12 +77,24 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    header: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        marginTop: 20
     },
     title: {
         fontSize: 32,
         fontWeight: 'bold',
-        marginBottom: 10
+        marginBottom: 10,
+        textAlign: 'center',
+        flex: 1,
+        marginLeft: 120
     },
     titleDos: {
         fontSize: 25,
@@ -87,6 +111,19 @@ const styles = StyleSheet.create({
     posteos: {
         width: "100%",
         flex: 1
+    },
+    buttonOut: {
+        alignSelf: "flex-end",
+        backgroundColor: "#ed58a4",
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        marginBottom: 15,
+
+    },
+    buttonOutText: {
+        color: "white",
+        fontWeight: "bold"
     }
 
 })
