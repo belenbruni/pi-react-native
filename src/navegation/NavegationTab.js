@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     tab:{
         height:70,
         paddingBottom:10,
-        
     }
 
 })

@@ -8,7 +8,6 @@ export default function Profile() {
     const [usuarios, setUsuarios] = useState([])
     const [posts, setPosts] = useState([])
 
-
     useEffect(() => {
         db.collection("users").where("owner", "==", auth.currentUser.email).onSnapshot(
             docs => {
@@ -23,6 +22,7 @@ export default function Profile() {
                 setUsuarios(users[0])
                 console.log(users)
             })
+
         db.collection("posteos").where("owner", "==", auth.currentUser.email).onSnapshot(
             docs => {
                 let posteos = [];
@@ -31,14 +31,10 @@ export default function Profile() {
                         id: doc.id,
                         data: doc.data()
                     })
-
                 })
                 setPosts(posteos)
                 console.log(posteos)
             })
-
-
-
     }, [])
 
     return (
@@ -48,14 +44,14 @@ export default function Profile() {
                 <>
                     <Text style={styles.datos}>{usuarios.data.owner}</Text>
                     <Text style={styles.datos}>{usuarios.data.username}</Text>
-                    <Text style={styles.title}>Últimos posteos</Text>
+                    <Text style={styles.titleDos}>Últimos posteos</Text>
                     <FlatList data={posts}
                         keyExtractor={item => item.id.toString()}
-                        renderItem={({ item }) => <Post 
-                            username= {item.data.owner}
-                            description= {item.data.description}
-                            like = {item.data.like}
-                        />} 
+                        renderItem={({ item }) => <Post
+                            username={item.data.owner}
+                            description={item.data.description}
+                            like={item.data.like}
+                        />}
                         style={styles.posteos}>
                     </FlatList>
                 </>)
@@ -71,12 +67,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
     title: {
-        fontSize: 30
+        fontSize: 32,
+        fontWeight: 'bold',
+        marginBottom: 10
+    },
+    titleDos: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        alignSelf: 'flex-start',
+        marginLeft: 290
     },
     datos: {
-        fontSize: 13
+        fontSize: 15,
+        color: "#ed58a4",
+        fontWeight: "bold",
     },
     posteos: {
         width: "100%",
