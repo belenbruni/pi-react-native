@@ -35,6 +35,7 @@ export default function Home() {
                         username={item.data.owner}
                         description={item.data.description}
                         like={item.data.like}
+                        id={item.id}
                     />}
                     style={styles.posteos}>
                 </FlatList>

@@ -1,11 +1,44 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { useState } from 'react';
+import { auth, db } from "../firebase/config"
+import firebase from "firebase"
 
-export default function Post(props){
-    return(
+export default function Post(props) {
+    const [like, setLike] = useState(false)
+    const [corazon, setCorazon] = useState("🤍")
+
+    function likear(){
+        db.collection('posteos')
+        .doc(props.id)
+        .update({
+            like: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
+        })
+        .then(() => {
+            setLike(true)
+            setCorazon("❤️")
+        })
+    }
+
+    function deslikear(){
+        db.collection('posteos')
+        .doc(props.id)
+        .update({
+            like: firebase.firestore.FieldValue.arrayRemove(props.username)
+        })
+        .then(() => {
+            setLike(false)
+            setCorazon("🤍")
+        })
+    }
+
+    return (
         <View style={styles.container}>
             <Text style={styles.username}>{props.username}</Text>
             <Text style={styles.description}>{props.description}</Text>
-            <Text style={styles.likes}>{props.like}</Text>
+            <Pressable onPress={() => like ? deslikear() : likear()} style={styles.likes}>
+                <Text>{corazon}</Text>
+                <Text>{props.like.length}</Text>
+            </Pressable>
         </View>
     )
 }
